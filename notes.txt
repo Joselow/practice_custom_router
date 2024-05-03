@@ -1,0 +1,3 @@
+* react -- alc ambair un stado todo el compoente e hijos se recargan XDXDx -- asi que si no sabes js bien cagaste
+- el useEffect() -- retorna una función que se ejecuta cuando el compoennete se desmonta, y antes
+de que se ejecute nuevamente(debido a especatr a un estado)
