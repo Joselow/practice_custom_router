@@ -1,4 +1,4 @@
-import { navigate } from "./App"
+import { navigate } from "./helpers/navigate"
 
 const MAIN_BUTTON_CLICK = 0
 
@@ -16,7 +16,6 @@ export function Link({children, target, to, ...props }){
   }
 
   return <>
-  { JSON.stringify(props)}  
     <a onClick={handleClick} href={to}  target={target}  { ...props}>{children}</a>
   </>
 }
