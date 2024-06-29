@@ -1,7 +1,9 @@
-import { HomePage } from './pages/HomePage'
-import { AboutPage } from './pages/AboutPage'
 import { Router } from './Router'
 import { Route } from './Route'
+
+import { HomePage } from './pages/HomePage'
+import { AboutPage } from './pages/AboutPage'
+import { SearchPage } from './pages/SearchPage'
 
 import './App.css'
 
@@ -15,7 +17,7 @@ function App() {
     <>
       <Router routes={router}>
         <Route path='/about' component={AboutPage} />
-        <Route path='/search/:owo' component={AboutPage}/>
+        <Route path='/search/:customParam' component={SearchPage}/>
       </Router>
     </>
   )
