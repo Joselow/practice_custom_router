@@ -2,9 +2,10 @@ import { match} from 'path-to-regexp'
 
 import { useEffect, useState, Children } from 'react'
 import { NAVIGATE_EVENT } from './helpers/navigate'
+import { getCurrentPath } from './utils/getCurrentPath'
+
 
 export function Router ({ children, routes = [], defaultComponent: DefaultComponent = () => <h1>Not found</h1> } = {}) {
-
   const childrenArray = Children.toArray(children)
   const routesFromChildren = Children.map(childrenArray, ({ type, props }) => {
     if (type.name === 'Route') {
@@ -14,11 +15,11 @@ export function Router ({ children, routes = [], defaultComponent: DefaultCompon
 
   const allRoutes = [...routesFromChildren, ...routes]
 
-  const [urlPath, sertUrlPath] = useState(window.location.pathname)
+  const [urlPath, sertUrlPath] = useState(getCurrentPath())
 
   useEffect(()=>{
       const onLocationChange = async() => {
-        sertUrlPath(window.location.pathname)
+        sertUrlPath(getCurrentPath())
       }
 
       window.addEventListener(NAVIGATE_EVENT, onLocationChange)
@@ -41,6 +42,8 @@ export function Router ({ children, routes = [], defaultComponent: DefaultCompon
       return true
     }
   })?.component
+
+  // console.log(routes[0]?.component,  routes[0]?.path, 'aaaaa');
 
   return PageToRender ? <PageToRender routeParams={params}/> : <DefaultComponent routeParams={params}/>
 }
