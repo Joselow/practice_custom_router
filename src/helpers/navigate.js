@@ -5,4 +5,5 @@ export const navigate = (path) => {
   
   const event = new Event(NAVIGATE_EVENT)
   window.dispatchEvent(event)
+  console.log(path, 'navegar a');
 }

@@ -19,6 +19,8 @@ export function Router ({ children, routes = [], defaultComponent: DefaultCompon
 
   useEffect(()=>{
       const onLocationChange = async() => {
+        console.log(getCurrentPath(), 'que ruta es llega el about/1 ?');
+
         sertUrlPath(getCurrentPath())
       }
 
@@ -42,8 +44,6 @@ export function Router ({ children, routes = [], defaultComponent: DefaultCompon
       return true
     }
   })?.component
-
-  // console.log(routes[0]?.component,  routes[0]?.path, 'aaaaa');
 
   return PageToRender ? <PageToRender routeParams={params}/> : <DefaultComponent routeParams={params}/>
 }

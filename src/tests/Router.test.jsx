@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { Router } from '../Router.jsx'
 import { Route } from '../Route.jsx'
 import { getCurrentPath } from '../utils/getCurrentPath.js'
@@ -12,7 +12,10 @@ vi.mock('../utils/getCurrentPath.js', () => ({
 
 describe('Router', () => {
   beforeEach(()=> {
-    vi.clearAllMocks()
+    console.log('NETA');
+
+    cleanup()    
+    vi.clearAllMocks()    
   })
 
   it('Render correctly', () => {
@@ -20,14 +23,14 @@ describe('Router', () => {
     expect(true).toBeTruthy()
   })
 
-  it('Should render 404 if no routes match', () => {
+  it('Render 404 if no routes match', () => {
     render(<Router routes={[]} defaultComponent={() => <h1>404</h1>}  />)
 
     expect(screen.getByText('404')).toBeTruthy()
   })
 
-  it('Should render the component of the first route that matches', () => {
-    getCurrentPath.mockReturnValue('/about')
+  it('Render the component of the first route that matches', () => {
+    getCurrentPath.mockReturnValue('/about2')
 
     const routes = [
       {
@@ -35,7 +38,7 @@ describe('Router', () => {
         component: () => <h1>Home</h1>
       },
       {
-        path: '/about',
+        path: '/about2',
         component: () => <h1>About</h1>
       },
     ]
@@ -44,39 +47,43 @@ describe('Router', () => {
     expect(screen.getByText('About')).toBeTruthy()
   })
 
-  it('Should navigate using Link', async () => {
-    getCurrentPath.mockReturnValue('/home')
+  it('Navigate using Link', async () => {
+    getCurrentPath.mockReturnValueOnce('/')
 
     const routes = [
       {
-        path: '/page1',
+        path: '/thePage',
         component: () => <h1>Page 1</h1>
       },
     ]
     
     render(
     <Router routes={routes} defaultComponent={() => <h1>404</h1>}  >
-      <Route path='/home' component={() => {
+      <Route path='/' component={() => {
         return (
           <>  
             <h1>Home</h1>
-            <Link to='/owo'>Search</Link>
+            <Link to='/about1'>Go to About</Link>
           </>
         )
       }} >  
       </Route>
 
-      <Route path='/owo' component={() => <h1>Search Page</h1>}/>
-    </Router>)
+      <Route path='/about1' component={() => <h1>oooo</h1>} />
+      </Router>
+      )
 
     console.log(screen.debug());
 
-    const anchor = screen.getByText('Search')
-    fireEvent.click(anchor)
+    const anchor = screen.getByText('Go to About')
+    fireEvent.click(anchor)    
+
 
     console.log(screen.debug());
-    const titlePage = await screen.findByText('Search Page')
+    const titlePage = await screen.findByText('oooo')
     expect(titlePage).toBeTruthy()
   })
 
 })
+
+//Midu el ultimo test no sirve si pruebas con otra ruta que no sea '/about' el  router no es capaz de encontrar el currentPath, solo te logró funcionar porque en el test anterior usaste el  getCurrentPath.mockReturnValue('/about'). 
